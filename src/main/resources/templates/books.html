@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Books</title>
+    <meta charset="UTF-8">
+    <!--<script type="text/javascript" th:src="@{|/books/js|}"></script>-->
+</head>
+<body>
+<section class="content-header" th:replace="headers/imports::imports"></section>
+<section class="content-header" th:replace="headers/navbar::navbar"></section>
+
+<div class="container">
+    <div class="row my-5">
+        <div class="col-sm-8 mx-auto">
+            <h4 class="text-primary text-center">Book List</h4>
+            <input type="text" class="form-control" placeholder="Search" id="search" style="margin-top: 2em; margin-bottom: 2em;"/>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">ISBN</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Release Year</th>
+                    <th scope="col">Author</th>
+                </tr>
+                </thead>
+                <tbody id="table">
+                <th:block th:each="book : ${books}">
+                    <tr>
+                        <th th:text="${book.id}"></th>
+                        <td th:text="${book.title}"></td>
+                        <td th:text="${book.releaseYear}"></td>
+                        <td th:text="${book.author.firstName}"></td>
+                        <td>
+                            <a th:href="@{|/books/book/${book.id}|}" class="btn btn-white btn-lg text-warning"><i class="fas fa-edit"></i></a>
+                        </td>
+                        <td>
+                            <a th:href="@{|/books/delete/${book.id}|}" class="btn btn-white btn-lg text-danger post"> <i class="fas fa-trash-alt"></i></a>
+                        </td>
+                    </tr>
+                </th:block>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+<section class="content-header" th:replace="scripts/search::search"></section>
+
+</body>
+</html>

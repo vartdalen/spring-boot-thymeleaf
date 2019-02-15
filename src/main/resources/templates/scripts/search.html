@@ -1,0 +1,131 @@
+<section class="content-header" th:fragment="search" xmlns:th="http://www.w3.org/1999/xhtml">
+    <script type="text/javascript">
+        let jsonHtmlTable = [];
+
+        let jsonTable = [];
+
+        let filters = {
+            searchText: ''
+        };
+
+        let htmlTable = document.querySelector('#table');
+
+        let input = document.querySelector('#search');
+        input.addEventListener('input', function (e) {
+                if(e.target.value === '') {
+                    resetTable();
+                } else {
+                    filters.searchText = e.target.value;
+                    renderTable(htmlTable, jsonTable, jsonHtmlTable, filters);
+                }
+        })
+
+        let populateJsonTable = function (htmlTable, jsonTable) {
+            let tempJsonTable = [];
+            for (let row = 0; row < htmlTable.rows.length; row++)
+            {
+                let tempJsonRow = [];
+                for (let cell = 0; cell < htmlTable.rows[row].cells.length-2; cell++) {
+                    tempJsonRow.push({value: htmlTable.rows[row].cells[cell].innerHTML});
+                }
+                tempJsonTable.push({row: tempJsonRow});
+            }
+            return tempJsonTable;
+        }
+
+        let resetTable = function() {
+            htmlTable.innerHTML = '';
+            jsonHtmlTable.forEach(function (rowIndex) {
+                let htmlRow = document.createElement('tr');
+                htmlRow.innerHTML = rowIndex.row;
+                htmlTable.appendChild(htmlRow);
+            })
+        }
+
+        let populateJsonHtmlTable = function (htmlTable, jsonHtmlTable) {
+            for (let row = 0; row < htmlTable.rows.length; row++)
+            {
+                jsonHtmlTable.push({row: htmlTable.rows[row].innerHTML});
+            }
+        }
+
+        function getUnique(arr, comp) {
+            const unique = arr
+                .map(e => e[comp])
+                .map((e, i, final) => final.indexOf(e) === i && i)
+                .filter(e => arr[e]).map(e => arr[e]);
+            return unique;
+        }
+
+        populateJsonHtmlTable(htmlTable, jsonHtmlTable);
+        jsonTable = populateJsonTable(htmlTable, jsonTable);
+
+        //filter search
+        let renderTable = function (htmlTable, jsonTable, jsonHtmlTable, filters) {
+            htmlTable.innerHTML = '';
+
+            let filteredTable = [];
+            jsonTable.forEach(function (index) {
+                let found = false;
+                let filteredTableRow = index.row.filter(function (cell) {
+                    if (found === false) {
+                        if (cell.value.toLowerCase().includes(filters.searchText.toLowerCase())) {
+                            found = true;
+                            return cell.value.toLowerCase().includes(filters.searchText.toLowerCase())
+                        }
+                    }
+                });
+                let rowCount = 0;
+                filteredTableRow.forEach(function (cell) {
+                    rowCount++;
+                })
+                if (rowCount > 0) {
+                    filteredTable.push(filteredTableRow);
+                }
+            })
+
+            let jsonHtmlIndexes = [];
+            for(let jsonRowIndex = 0; jsonRowIndex < jsonTable.length; jsonRowIndex++) {
+                for(let jsonCell = 0; jsonCell < jsonTable[jsonRowIndex].row.length; jsonCell++) {
+                    for(let filteredTableIndex = 0; filteredTableIndex < filteredTable.length; filteredTableIndex++) {
+                        if(jsonTable[jsonRowIndex].row[jsonCell].value.toLowerCase().includes(filteredTable[filteredTableIndex][0].value.toLowerCase())) {
+                            jsonHtmlIndexes.push({index: jsonRowIndex});
+                            break;
+                        }
+                    }
+                }
+            }
+
+            let jsonHtmlIndexesUnique = getUnique(jsonHtmlIndexes, 'index');
+            console.log(JSON.stringify(jsonHtmlIndexesUnique));
+            let tempHtmlTable = [];
+            console.log(JSON.stringify(jsonHtmlTable));
+            for(let jsonHtmlRow = 0; jsonHtmlRow < jsonHtmlTable.length; jsonHtmlRow++) {
+                try{
+                    tempHtmlTable.push(jsonHtmlTable[jsonHtmlIndexesUnique[jsonHtmlRow].index].row);
+                }catch (e) {
+                    if(e instanceof TypeError) {
+                        if(tempHtmlTable.length < jsonHtmlTable.length) {
+                            try{
+                                tempHtmlTable.unshift(jsonHtmlTable[jsonHtmlIndexesUnique[jsonHtmlRow-1].index].row);
+                            } catch (e) {
+                                if (e instanceof TypeError) {
+                                    jsonHtmlRow--;
+                                    tempHtmlTable.push(jsonHtmlTable[jsonHtmlIndexesUnique[jsonHtmlRow-1].index].row);
+                                }
+                            }
+                        } else {
+                            break
+                        }
+                    }
+                }
+            }
+
+            for (let tempHtmlRow = 0; tempHtmlRow < jsonHtmlIndexesUnique.length; tempHtmlRow++) {
+                let filteredHtmlRow = document.createElement('tr');
+                filteredHtmlRow.innerHTML = tempHtmlTable[jsonHtmlIndexesUnique[tempHtmlRow].index];
+                htmlTable.appendChild(filteredHtmlRow);
+            }
+        }
+    </script>
+</section>
