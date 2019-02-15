@@ -97,9 +97,7 @@
             }
 
             let jsonHtmlIndexesUnique = getUnique(jsonHtmlIndexes, 'index');
-            console.log(JSON.stringify(jsonHtmlIndexesUnique));
             let tempHtmlTable = [];
-            console.log(JSON.stringify(jsonHtmlTable));
             for(let jsonHtmlRow = 0; jsonHtmlRow < jsonHtmlTable.length; jsonHtmlRow++) {
                 try{
                     tempHtmlTable.push(jsonHtmlTable[jsonHtmlIndexesUnique[jsonHtmlRow].index].row);
@@ -111,16 +109,22 @@
                             } catch (e) {
                                 if (e instanceof TypeError) {
                                     jsonHtmlRow--;
-                                    tempHtmlTable.push(jsonHtmlTable[jsonHtmlIndexesUnique[jsonHtmlRow-1].index].row);
+                                    try{
+                                        tempHtmlTable.push(jsonHtmlTable[jsonHtmlIndexesUnique[jsonHtmlRow-1].index].row);
+                                    } catch (e) {
+                                        if(e instanceof TypeError) {
+                                            htmlTable.innerHTML = 'No match found'
+                                            break;
+                                        }
+                                    }
                                 }
                             }
                         } else {
-                            break
+                            break;
                         }
                     }
                 }
             }
-
             for (let tempHtmlRow = 0; tempHtmlRow < jsonHtmlIndexesUnique.length; tempHtmlRow++) {
                 let filteredHtmlRow = document.createElement('tr');
                 filteredHtmlRow.innerHTML = tempHtmlTable[jsonHtmlIndexesUnique[tempHtmlRow].index];
