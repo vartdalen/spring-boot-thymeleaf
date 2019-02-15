@@ -101,7 +101,7 @@
             for(let jsonHtmlRow = 0; jsonHtmlRow < jsonHtmlTable.length; jsonHtmlRow++) {
                 try{
                     tempHtmlTable.push(jsonHtmlTable[jsonHtmlIndexesUnique[jsonHtmlRow].index].row);
-                }catch (e) {
+                } catch (e) {
                     if(e instanceof TypeError) {
                         if(tempHtmlTable.length < jsonHtmlTable.length) {
                             try{
@@ -110,7 +110,7 @@
                                 if (e instanceof TypeError) {
                                     jsonHtmlRow--;
                                     try{
-                                        tempHtmlTable.push(jsonHtmlTable[jsonHtmlIndexesUnique[jsonHtmlRow-1].index].row);
+                                        tempHtmlTable.unshift(jsonHtmlTable[jsonHtmlIndexesUnique[jsonHtmlRow-1].index].row);
                                     } catch (e) {
                                         if(e instanceof TypeError) {
                                             htmlTable.innerHTML = 'No match found'
