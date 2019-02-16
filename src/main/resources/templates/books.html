@@ -20,6 +20,7 @@
                     <th scope="col">ISBN</th>
                     <th scope="col">Title</th>
                     <th scope="col">Release Year</th>
+                    <th scope="col">Category</th>
                     <th scope="col">Author</th>
                 </tr>
                 </thead>
@@ -29,6 +30,7 @@
                         <th th:text="${book.id}"></th>
                         <td th:text="${book.title}"></td>
                         <td th:text="${book.releaseYear}"></td>
+                        <td th:text="${book.category.name}"></td>
                         <td th:text="${book.author.firstName}"></td>
                         <td>
                             <a th:href="@{|/books/book/${book.id}|}" class="btn btn-white btn-lg text-warning"><i class="fas fa-edit"></i></a>

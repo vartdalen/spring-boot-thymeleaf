@@ -2,8 +2,10 @@ package no.oslomet.controller;
 
 import no.oslomet.model.Author;
 import no.oslomet.model.Book;
+import no.oslomet.model.Category;
 import no.oslomet.repository.AuthorRepository;
 import no.oslomet.repository.BookRepository;
+import no.oslomet.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +23,8 @@ public class BookController {
     private BookRepository bookRepository;
     @Autowired
     private AuthorRepository authorRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @GetMapping("")
     @Transactional
@@ -32,10 +36,13 @@ public class BookController {
 
     @PostMapping("")
     @Transactional
-    public String books(@ModelAttribute("book") Book book, @RequestParam("idAuthor") String id){
+    public String books(@ModelAttribute("book") Book book, @RequestParam("idCategory") String idCategory, @RequestParam("idAuthor") String idAuthor){
         Author author = new Author();
-        author = authorRepository.findById(Long.parseLong(id)).get();
+        author = authorRepository.findById(Long.parseLong(idAuthor)).get();
         book.setAuthor(author);
+        Category category = new Category();
+        category = categoryRepository.findById(Long.parseLong(idCategory)).get();
+        book.setCategory(category);
         bookRepository.save(book);
         return "redirect:/books";
     }
@@ -45,8 +52,10 @@ public class BookController {
     public String book(Model model){
         Book book = new Book();
         List<Author> authorList = authorRepository.findAll();
+        List<Category> categoryList = categoryRepository.findAll();
         model.addAttribute("book", book);
         model.addAttribute("authors", authorList);
+        model.addAttribute("categories", categoryList);
         return "book";
     }
 
@@ -63,11 +72,12 @@ public class BookController {
 
     @RequestMapping("/update/{id}")
     @Transactional
-    public String update(@PathVariable("id") String id, String title, String releaseYear, Author author){
+    public String update(@PathVariable("id") String id, String title, String releaseYear, Category category, Author author){
         Book book = new Book();
         book = bookRepository.findById(Long.parseLong(id)).get();
         book.setTitle(title);
         book.setReleaseYear(releaseYear);
+        book.setCategory(category);
         book.setAuthor(author);
         bookRepository.save(book);
         return "redirect:/books";

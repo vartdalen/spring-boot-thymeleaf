@@ -23,7 +23,14 @@
                     <input type="text" class="form-control" placeholder="Release Year" th:field="*{releaseYear}"/>
                 </div>
                 <div class="form-group">
-                    <select name="idAuthor">
+                    <select name="idCategory" title="Category">
+                        <th:block th:each="category : ${categories}">
+                            <option th:value="${category.id}" th:label="${category.name}"/>
+                        </th:block>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select name="idAuthor" title="Author">
                         <th:block th:each="author : ${authors}">
                             <option th:value="${author.id}" th:label="${author.firstName}"/>
                         </th:block>
