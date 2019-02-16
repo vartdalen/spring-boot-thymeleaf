@@ -20,7 +20,7 @@ public class CategoryController {
 
     @GetMapping("")
     @Transactional
-    public String categories(Model model){
+    public String categories(Model model) {
         List<Category> categoryList = categoryRepository.findAll();
         model.addAttribute("categories", categoryList);
         return "categories";
@@ -35,7 +35,7 @@ public class CategoryController {
 
     @RequestMapping("/category")
     @Transactional
-    public String category(Model model){
+    public String category(Model model) {
         Category category = new Category();
         model.addAttribute("category", category);
         return "category";
@@ -43,7 +43,7 @@ public class CategoryController {
 
     @RequestMapping("/category/{id}")
     @Transactional
-    public String updateCategory(Model model, @PathVariable("id") String id){
+    public String updateCategory(Model model, @PathVariable("id") String id) {
         Category category = new Category();
         category = categoryRepository.findById(Long.parseLong(id)).get();
         model.addAttribute("category", category);
@@ -52,7 +52,7 @@ public class CategoryController {
 
     @RequestMapping("/update/{id}")
     @Transactional
-    public String update(@PathVariable("id") String id, String name){
+    public String update(@PathVariable("id") String id, String name) {
         Category category = new Category();
         category = categoryRepository.findById(Long.parseLong(id)).get();
         category.setName(name);
@@ -62,7 +62,7 @@ public class CategoryController {
 
     @RequestMapping("/delete/{id}")
     @Transactional
-    public String delete(@PathVariable("id") String id){
+    public String delete(@PathVariable("id") String id) {
         Category category = new Category();
         category = categoryRepository.findById(Long.parseLong(id)).get();
         categoryRepository.delete(category);

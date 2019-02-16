@@ -36,7 +36,7 @@ public class BookController {
 
     @PostMapping("")
     @Transactional
-    public String books(@ModelAttribute("book") Book book, @RequestParam("idCategory") String idCategory, @RequestParam("idAuthor") String idAuthor){
+    public String books(@ModelAttribute("book") Book book, @RequestParam("idCategory") String idCategory, @RequestParam("idAuthor") String idAuthor) {
         Author author = new Author();
         author = authorRepository.findById(Long.parseLong(idAuthor)).get();
         book.setAuthor(author);
@@ -49,7 +49,7 @@ public class BookController {
 
     @RequestMapping("/book")
     @Transactional
-    public String book(Model model, String id){
+    public String book(Model model, String id) {
         Book book = new Book();
         if(id != null) {
             book = bookRepository.findById(Long.parseLong(id)).get();
@@ -64,14 +64,14 @@ public class BookController {
 
     @RequestMapping("/book/{id}")
     @Transactional
-    public String updateBook(Model model, @PathVariable("id") String id){
+    public String updateBook(Model model, @PathVariable("id") String id) {
         book(model, id);
         return "book";
     }
 
     @RequestMapping("/update/{id}")
     @Transactional
-    public String update(@PathVariable("id") String id, String title, String releaseYear, Category category, Author author, String quantity){
+    public String update(@PathVariable("id") String id, String title, String releaseYear, Category category, Author author, String quantity) {
         Book book = new Book();
         book = bookRepository.findById(Long.parseLong(id)).get();
         book.setTitle(title);
@@ -85,7 +85,7 @@ public class BookController {
 
     @RequestMapping("/delete/{id}")
     @Transactional
-    public String delete(@PathVariable("id") String id){
+    public String delete(@PathVariable("id") String id) {
         Book book = new Book();
         book = bookRepository.findById(Long.parseLong(id)).get();
         bookRepository.delete(book);

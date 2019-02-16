@@ -20,7 +20,7 @@ public class AuthorController {
 
     @GetMapping("")
     @Transactional
-    public String authors(Model model){
+    public String authors(Model model) {
         List<Author> authorList = authorRepository.findAll();
         model.addAttribute("authors", authorList);
         return "authors";
@@ -28,14 +28,14 @@ public class AuthorController {
 
     @PostMapping("")
     @Transactional
-    public String authors(@ModelAttribute("author") Author author){
+    public String authors(@ModelAttribute("author") Author author) {
         authorRepository.save(author);
         return "redirect:/authors";
     }
 
     @RequestMapping("/author")
     @Transactional
-    public String author(Model model, String id){
+    public String author(Model model, String id) {
         Author author = new Author();
         if(id != null) {
             author = authorRepository.findById(Long.parseLong(id)).get();
@@ -47,14 +47,14 @@ public class AuthorController {
     //redirect to form to update author
     @RequestMapping("/author/{id}")
     @Transactional
-    public String updateAuthor(Model model, @PathVariable("id") String id){
+    public String updateAuthor(Model model, @PathVariable("id") String id) {
         author(model, id);
         return "author";
     }
 
     @RequestMapping("/update/{id}")
     @Transactional
-    public String update(@PathVariable("id") String id, String firstName, String lastName, String nationality, String rating){
+    public String update(@PathVariable("id") String id, String firstName, String lastName, String nationality, String rating) {
         Author author = new Author();
         author = authorRepository.findById(Long.parseLong(id)).get();
         author.setFirstName(firstName);
@@ -67,7 +67,7 @@ public class AuthorController {
 
     @RequestMapping("/delete/{id}")
     @Transactional
-    public String delete(@PathVariable("id") String id){
+    public String delete(@PathVariable("id") String id) {
         Author author = new Author();
         author = authorRepository.findById(Long.parseLong(id)).get();
         authorRepository.delete(author);

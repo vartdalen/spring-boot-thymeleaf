@@ -1,6 +1,7 @@
 package no.oslomet.model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "book")
@@ -20,6 +21,9 @@ public class Book {
     @ManyToOne
     @JoinColumn(name="idCategory")
     private Category category;
+
+    @OneToMany(mappedBy = "book")
+    private Set<Order> order;
 
     public Book() {
     }

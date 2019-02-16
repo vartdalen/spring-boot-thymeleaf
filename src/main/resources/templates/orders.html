@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Orders</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <section class="content-header" th:replace="headers/imports::imports"></section>
+    <section class="content-header" th:replace="headers/navbar::navbar"></section>
+
+    <div class="container">
+        <div class="row my-5">
+            <div class="col-sm-8 mx-auto">
+                <h4 class="text-primary text-center">Order List</h4>
+                <input type="text" class="form-control" placeholder="Search" id="search" style="margin-top: 2em; margin-bottom: 2em;"/>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Book</th>
+                        <!--<th scope="col">Shipping</th>-->
+                        <th scope="col" style="visibility: hidden"></th>
+                        <th scope="col" style="visibility: hidden"></th>
+                    </tr>
+                    </thead>
+                    <tbody id="table">
+                    <th:block th:each="order : ${orders}">
+                        <tr>
+                            <td th:text="${order.id}"></td>
+                            <td th:text="${order.date}"></td>
+                            <td th:text="${order.book.title}"></td>
+                            <!--<td th:text="${order.shipping.firstName}"></td>-->
+                            <td style="visibility: hidden">
+                                <a th:href="@{|/orders/order/${order.id}|}" class="btn btn-white btn-lg text-warning"><i class="fas fa-edit"></i></a>
+                            </td>
+                            <td style="visibility: hidden">
+                                <a th:href="@{|/orders/delete/${order.id}|}" class="btn btn-white btn-lg text-danger post"> <i class="fas fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+    <section class="content-header" th:replace="scripts/search::search"></section>
+
+</body>
+</html>

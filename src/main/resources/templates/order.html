@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Cateogry</title>
+    <title>Book</title>
     <meta charset="UTF-8">
 </head>
 <body>
@@ -11,18 +11,26 @@
     <div class="container">
         <div class="row my-5">
             <div class="col-sm-6 mx-auto">
-                <h4 class="text-primary text-center">Category</h4>
-                <form method="post" th:action="@{/categories}" th:object="${category}">
+                <h4 class="text-primary text-center">Order</h4>
+                <form method="post" th:action="@{/orders}" th:object="${order}">
                     <div class="form-group" style="visibility: hidden">
                         <input type="text" class="form-control" placeholder="Id" th:field="*{id}"/>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Name" th:field="*{name}"/>
+                        <input type="date" class="form-control" placeholder="Date" th:field="*{date}"/>
+                    </div>
+                    <div class="form-group">
+                        <select name="idBook" title="book">
+                            <th:block th:each="book : ${books}">
+                                <option th:value="${book.id}" th:label="${book.title}"/>
+                            </th:block>
+                        </select>
                     </div>
                     <button type="submit" class="btn btn-primary">Save</button>
                 </form>
             </div>
         </div>
     </div>
+
 </body>
 </html>
