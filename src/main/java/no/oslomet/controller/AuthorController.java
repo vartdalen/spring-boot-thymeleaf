@@ -35,8 +35,11 @@ public class AuthorController {
 
     @RequestMapping("/author")
     @Transactional
-    public String author(Model model){
+    public String author(Model model, String id){
         Author author = new Author();
+        if(id != null) {
+            author = authorRepository.findById(Long.parseLong(id)).get();
+        }
         model.addAttribute("author", author);
         return "author";
     }
@@ -44,21 +47,20 @@ public class AuthorController {
     //redirect to form to update author
     @RequestMapping("/author/{id}")
     @Transactional
-    public String author(Model model, @PathVariable("id") String id){
-        Author author = new Author();
-        author = authorRepository.findById(Long.parseLong(id)).get();
-        model.addAttribute("author", author);
+    public String updateAuthor(Model model, @PathVariable("id") String id){
+        author(model, id);
         return "author";
     }
 
     @RequestMapping("/update/{id}")
     @Transactional
-    public String update(@PathVariable("id") String id, String firstName, String lastName, String nationality){
+    public String update(@PathVariable("id") String id, String firstName, String lastName, String nationality, String rating){
         Author author = new Author();
         author = authorRepository.findById(Long.parseLong(id)).get();
         author.setFirstName(firstName);
         author.setLastName(lastName);
         author.setNationality(nationality);
+        author.setRating(rating);
         authorRepository.save(author);
         return "redirect:/authors";
     }

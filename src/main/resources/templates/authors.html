@@ -12,6 +12,7 @@
         <div class="row my-5">
             <div class="col-sm-8 mx-auto">
                 <h4 class="text-primary text-center">Author List</h4>
+                <input type="text" class="form-control" placeholder="Search" id="search" style="margin-top: 2em; margin-bottom: 2em;"/>
                 <table class="table">
                     <thead>
                     <tr>
@@ -19,19 +20,23 @@
                         <th scope="col">First Name</th>
                         <th scope="col">Last Name</th>
                         <th scope="col">Nationality</th>
+                        <th scope="col">Rating</th>
+                        <th scope="col" style="visibility: hidden"></th>
+                        <th scope="col" style="visibility: hidden"></th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="table">
                     <th:block th:each="author : ${authors}">
                         <tr>
-                            <th th:text="${author.id}"></th>
+                            <td th:text="${author.id}"></td>
                             <td th:text="${author.firstName}"></td>
                             <td th:text="${author.lastName}"></td>
                             <td th:text="${author.nationality}"></td>
-                            <td>
+                            <td th:text="${author.rating}"></td>
+                            <td style="visibility: hidden">
                                 <a th:href="@{|/authors/author/${author.id}|}" class="btn btn-white btn-lg text-warning"><i class="fas fa-edit"></i></a>
                             </td>
-                            <td>
+                            <td style="visibility: hidden">
                                 <a th:href="@{|/authors/delete/${author.id}|}" class="btn btn-white btn-lg text-danger post"> <i class="fas fa-trash-alt"></i></a>
                             </td>
                         </tr>
@@ -42,5 +47,8 @@
             </div>
         </div>
     </div>
+
+    <section class="content-header" th:replace="scripts/search::search"></section>
+
 </body>
 </html>

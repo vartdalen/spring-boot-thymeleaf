@@ -9,37 +9,41 @@
 <section class="content-header" th:replace="headers/imports::imports"></section>
 <section class="content-header" th:replace="headers/navbar::navbar"></section>
 
-<div class="container">
-    <div class="row my-5">
-        <div class="col-sm-8 mx-auto">
-            <h4 class="text-primary text-center">Category List</h4>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Name</th>
-
-                </tr>
-                </thead>
-                <tbody id="table">
-                <th:block th:each="category : ${categories}">
+    <div class="container">
+        <div class="row my-5">
+            <div class="col-sm-8 mx-auto">
+                <h4 class="text-primary text-center">Category List</h4>
+                <input type="text" class="form-control" placeholder="Search" id="search" style="margin-top: 2em; margin-bottom: 2em;"/>
+                <table class="table">
+                    <thead>
                     <tr>
-                        <th th:text="${category.id}"></th>
-                        <td th:text="${category.name}"></td>
-                        <td>
-                            <a th:href="@{|/categories/category/${category.id}|}" class="btn btn-white btn-lg text-warning"><i class="fas fa-edit"></i></a>
-                        </td>
-                        <td>
-                            <a th:href="@{|/categories/delete/${category.id}|}" class="btn btn-white btn-lg text-danger post"> <i class="fas fa-trash-alt"></i></a>
-                        </td>
+                        <th scope="col">Id</th>
+                        <th scope="col">Name</th>
+                        <th scope="col" style="visibility: hidden"></th>
+                        <th scope="col" style="visibility: hidden"></th>
                     </tr>
-                </th:block>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody id="table">
+                    <th:block th:each="category : ${categories}">
+                        <tr>
+                            <td th:text="${category.id}"></td>
+                            <td th:text="${category.name}"></td>
+                            <td style="visibility: hidden">
+                                <a th:href="@{|/categories/category/${category.id}|}" class="btn btn-white btn-lg text-warning" ><i class="fas fa-edit"></i></a>
+                            </td>
+                            <td style="visibility: hidden">
+                                <a th:href="@{|/categories/delete/${category.id}|}" class="btn btn-white btn-lg text-danger post"> <i class="fas fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
 
+            </div>
         </div>
     </div>
-</div>
+
+    <section class="content-header" th:replace="scripts/search::search"></section>
 
 </body>
 </html>

@@ -1,26 +1,7 @@
 <section class="content-header" th:fragment="search" xmlns:th="http://www.w3.org/1999/xhtml">
     <script type="text/javascript">
-        let jsonHtmlTable = [];
-
-        let jsonTable = [];
-
-        let filters = {
-            searchText: ''
-        };
-
-        let htmlTable = document.querySelector('#table');
-
-        let input = document.querySelector('#search');
-        input.addEventListener('input', function (e) {
-                if(e.target.value === '') {
-                    resetHtmlTable();
-                } else {
-                    filters.searchText = e.target.value;
-                    renderTable(htmlTable, jsonTable, jsonHtmlTable, filters);
-                }
-        })
-
-        let populateJsonTable = function (htmlTable, jsonTable) {
+        // Functions
+        function populateJsonTable (htmlTable) {
             let tempJsonTable = [];
             for (let row = 0; row < htmlTable.rows.length; row++)
             {
@@ -33,14 +14,28 @@
             return tempJsonTable;
         }
 
-        let populateJsonHtmlTable = function (htmlTable, jsonHtmlTable) {
+        function populateJsonHtmlTable (htmlTable) {
+            let tempJsonHtmlTable = [];
             for (let row = 0; row < htmlTable.rows.length; row++)
             {
-                jsonHtmlTable.push({row: htmlTable.rows[row].innerHTML});
+                tempJsonHtmlTable.push({row: htmlTable.rows[row].innerHTML});
+            }
+            return tempJsonHtmlTable;
+        }
+
+        function populateHtmlTable(jsonHtmlIndexesUnique) {
+            if(jsonHtmlIndexesUnique.length < 1) {
+                htmlTable.innerHTML = 'No match found';
+            } else {
+                for (let tempHtmlRow = 0; tempHtmlRow < jsonHtmlIndexesUnique.length; tempHtmlRow++) {
+                    let filteredHtmlRow = document.createElement('tr');
+                    filteredHtmlRow.innerHTML = jsonHtmlTable[jsonHtmlIndexesUnique[tempHtmlRow].index].row;
+                    htmlTable.appendChild(filteredHtmlRow);
+                }
             }
         }
 
-        let resetHtmlTable = function() {
+        function resetHtmlTable() {
             htmlTable.innerHTML = '';
             jsonHtmlTable.forEach(function (rowIndex) {
                 let htmlRow = document.createElement('tr');
@@ -49,20 +44,7 @@
             })
         }
 
-        function getUnique(arr, comp) {
-            const unique = arr
-                .map(e => e[comp])
-                .map((e, i, final) => final.indexOf(e) === i && i)
-                .filter(e => arr[e]).map(e => arr[e]);
-            return unique;
-        }
-
-        populateJsonHtmlTable(htmlTable, jsonHtmlTable);
-        jsonTable = populateJsonTable(htmlTable, jsonTable);
-
-        //filter search
-        let renderTable = function (htmlTable, jsonTable, jsonHtmlTable, filters) {
-            htmlTable.innerHTML = '';
+        function getFilteredTable() {
             let filteredTable = [];
             jsonTable.forEach(function (index) {
                 let found = false;
@@ -78,7 +60,10 @@
                     filteredTable.push(filteredTableRow);
                 }
             })
+            return filteredTable;
+        }
 
+        function getJsonHtmlIndexes(filteredTable) {
             let jsonHtmlIndexes = [];
             for(let jsonRowIndex = 0; jsonRowIndex < jsonTable.length; jsonRowIndex++) {
                 for(let jsonCell = 0; jsonCell < jsonTable[jsonRowIndex].row.length; jsonCell++) {
@@ -90,23 +75,37 @@
                     }
                 }
             }
-
-            let jsonHtmlIndexesUnique = getUnique(jsonHtmlIndexes, 'index');
-            console.log(JSON.stringify(jsonHtmlIndexesUnique));
-            let tempHtmlTable = [];
-            if(jsonHtmlIndexesUnique.length < 1) {
-                htmlTable.innerHTML = 'No match found';
-            } else {
-                for(let jsonHtmlRow = 0; jsonHtmlRow < jsonHtmlIndexesUnique.length; jsonHtmlRow++) {
-                    tempHtmlTable.push({row: jsonHtmlTable[jsonHtmlIndexesUnique[jsonHtmlRow].index].row});
-                }
-            }
-            for (let tempHtmlRow = 0; tempHtmlRow < jsonHtmlIndexesUnique.length; tempHtmlRow++) {
-                console.log(JSON.stringify(jsonHtmlIndexesUnique[tempHtmlRow].index));
-                let filteredHtmlRow = document.createElement('tr');
-                filteredHtmlRow.innerHTML = jsonHtmlTable[jsonHtmlIndexesUnique[tempHtmlRow].index].row;
-                htmlTable.appendChild(filteredHtmlRow);
-            }
+            return jsonHtmlIndexes;
         }
+
+        function getUnique(arr, comp) {
+            const unique = arr
+                .map(e => e[comp])
+                .map((e, i, final) => final.indexOf(e) === i && i)
+                .filter(e => arr[e]).map(e => arr[e]);
+            return unique;
+        }
+
+        // Variables
+        const htmlTable = document.querySelector('#table');
+        const jsonHtmlTable = populateJsonHtmlTable(htmlTable);
+        const jsonTable = populateJsonTable(htmlTable);
+
+        let filters = {
+            searchText: ''
+        };
+        let input = document.querySelector('#search');
+        input.addEventListener('input', function (e) {
+            if(e.target.value === '') {
+                resetHtmlTable();
+            } else {
+                htmlTable.innerHTML = '';
+                filters.searchText = e.target.value;
+                let filteredTable = getFilteredTable();
+                let jsonHtmlIndexes = getJsonHtmlIndexes(filteredTable);
+                let jsonHtmlIndexesUnique = getUnique(jsonHtmlIndexes, 'index');
+                populateHtmlTable(jsonHtmlIndexesUnique);
+            }
+        })
     </script>
 </section>

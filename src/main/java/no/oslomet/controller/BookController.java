@@ -49,8 +49,11 @@ public class BookController {
 
     @RequestMapping("/book")
     @Transactional
-    public String book(Model model){
+    public String book(Model model, String id){
         Book book = new Book();
+        if(id != null) {
+            book = bookRepository.findById(Long.parseLong(id)).get();
+        }
         List<Author> authorList = authorRepository.findAll();
         List<Category> categoryList = categoryRepository.findAll();
         model.addAttribute("book", book);
@@ -62,25 +65,20 @@ public class BookController {
     @RequestMapping("/book/{id}")
     @Transactional
     public String updateBook(Model model, @PathVariable("id") String id){
-        Book book = new Book();
-        book = bookRepository.findById(Long.parseLong(id)).get();
-        List<Author> authorList = authorRepository.findAll();
-        List<Category> categoryList = categoryRepository.findAll();
-        model.addAttribute("book", book);
-        model.addAttribute("authors", authorList);
-        model.addAttribute("categories", categoryList);
+        book(model, id);
         return "book";
     }
 
     @RequestMapping("/update/{id}")
     @Transactional
-    public String update(@PathVariable("id") String id, String title, String releaseYear, Category category, Author author){
+    public String update(@PathVariable("id") String id, String title, String releaseYear, Category category, Author author, String quantity){
         Book book = new Book();
         book = bookRepository.findById(Long.parseLong(id)).get();
         book.setTitle(title);
         book.setReleaseYear(releaseYear);
         book.setCategory(category);
         book.setAuthor(author);
+        book.setQuantity(Integer.parseInt(quantity));
         bookRepository.save(book);
         return "redirect:/books";
     }

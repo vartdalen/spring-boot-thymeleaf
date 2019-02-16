@@ -17,6 +17,7 @@ public class Author {
     private String firstName;
     private String lastName;
     private String nationality;
+    private String rating;
 
     @OneToMany(mappedBy = "author")
     private Set<Book> book;
@@ -24,11 +25,12 @@ public class Author {
     public Author() {
     }
 
-    public Author(long id, String firstName, String lastName, String nationality) {
+    public Author(long id, String firstName, String lastName, String nationality, String rating) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.nationality = nationality;
+        this.rating = rating;
     }
 
     public long getId() {
@@ -56,4 +58,7 @@ public class Author {
         this.nationality = nationality;
     }
     public String getNationality() {return nationality;}
+
+    public String getRating() { return rating; }
+    public void setRating(String rating) { this.rating = rating; }
 }
