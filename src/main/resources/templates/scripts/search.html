@@ -13,7 +13,7 @@
         let input = document.querySelector('#search');
         input.addEventListener('input', function (e) {
                 if(e.target.value === '') {
-                    resetTable();
+                    resetHtmlTable();
                 } else {
                     filters.searchText = e.target.value;
                     renderTable(htmlTable, jsonTable, jsonHtmlTable, filters);
@@ -33,20 +33,20 @@
             return tempJsonTable;
         }
 
-        let resetTable = function() {
+        let populateJsonHtmlTable = function (htmlTable, jsonHtmlTable) {
+            for (let row = 0; row < htmlTable.rows.length; row++)
+            {
+                jsonHtmlTable.push({row: htmlTable.rows[row].innerHTML});
+            }
+        }
+
+        let resetHtmlTable = function() {
             htmlTable.innerHTML = '';
             jsonHtmlTable.forEach(function (rowIndex) {
                 let htmlRow = document.createElement('tr');
                 htmlRow.innerHTML = rowIndex.row;
                 htmlTable.appendChild(htmlRow);
             })
-        }
-
-        let populateJsonHtmlTable = function (htmlTable, jsonHtmlTable) {
-            for (let row = 0; row < htmlTable.rows.length; row++)
-            {
-                jsonHtmlTable.push({row: htmlTable.rows[row].innerHTML});
-            }
         }
 
         function getUnique(arr, comp) {
@@ -63,7 +63,6 @@
         //filter search
         let renderTable = function (htmlTable, jsonTable, jsonHtmlTable, filters) {
             htmlTable.innerHTML = '';
-
             let filteredTable = [];
             jsonTable.forEach(function (index) {
                 let found = false;
@@ -75,11 +74,7 @@
                         }
                     }
                 });
-                let rowCount = 0;
-                filteredTableRow.forEach(function (cell) {
-                    rowCount++;
-                })
-                if (rowCount > 0) {
+                if (filteredTableRow.length > 0) {
                     filteredTable.push(filteredTableRow);
                 }
             })
@@ -97,37 +92,19 @@
             }
 
             let jsonHtmlIndexesUnique = getUnique(jsonHtmlIndexes, 'index');
+            console.log(JSON.stringify(jsonHtmlIndexesUnique));
             let tempHtmlTable = [];
-            for(let jsonHtmlRow = 0; jsonHtmlRow < jsonHtmlTable.length; jsonHtmlRow++) {
-                try{
-                    tempHtmlTable.push(jsonHtmlTable[jsonHtmlIndexesUnique[jsonHtmlRow].index].row);
-                } catch (e) {
-                    if(e instanceof TypeError) {
-                        if(tempHtmlTable.length < jsonHtmlTable.length) {
-                            try{
-                                tempHtmlTable.unshift(jsonHtmlTable[jsonHtmlIndexesUnique[jsonHtmlRow-1].index].row);
-                            } catch (e) {
-                                if (e instanceof TypeError) {
-                                    jsonHtmlRow--;
-                                    try{
-                                        tempHtmlTable.unshift(jsonHtmlTable[jsonHtmlIndexesUnique[jsonHtmlRow-1].index].row);
-                                    } catch (e) {
-                                        if(e instanceof TypeError) {
-                                            htmlTable.innerHTML = 'No match found'
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            break;
-                        }
-                    }
+            if(jsonHtmlIndexesUnique.length < 1) {
+                htmlTable.innerHTML = 'No match found';
+            } else {
+                for(let jsonHtmlRow = 0; jsonHtmlRow < jsonHtmlIndexesUnique.length; jsonHtmlRow++) {
+                    tempHtmlTable.push({row: jsonHtmlTable[jsonHtmlIndexesUnique[jsonHtmlRow].index].row});
                 }
             }
             for (let tempHtmlRow = 0; tempHtmlRow < jsonHtmlIndexesUnique.length; tempHtmlRow++) {
+                console.log(JSON.stringify(jsonHtmlIndexesUnique[tempHtmlRow].index));
                 let filteredHtmlRow = document.createElement('tr');
-                filteredHtmlRow.innerHTML = tempHtmlTable[jsonHtmlIndexesUnique[tempHtmlRow].index];
+                filteredHtmlRow.innerHTML = jsonHtmlTable[jsonHtmlIndexesUnique[tempHtmlRow].index].row;
                 htmlTable.appendChild(filteredHtmlRow);
             }
         }

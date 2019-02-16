@@ -65,8 +65,10 @@ public class BookController {
         Book book = new Book();
         book = bookRepository.findById(Long.parseLong(id)).get();
         List<Author> authorList = authorRepository.findAll();
+        List<Category> categoryList = categoryRepository.findAll();
         model.addAttribute("book", book);
         model.addAttribute("authors", authorList);
+        model.addAttribute("categories", categoryList);
         return "book";
     }
 
