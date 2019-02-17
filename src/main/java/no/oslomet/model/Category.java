@@ -5,14 +5,14 @@ import java.util.Set;
 
 @Entity
 @Table(name = "category")
-public class Category implements java.io.Serializable {
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="idCategory")
     private long id;
     private String name;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", cascade=CascadeType.REMOVE)
     private Set<Book> book;
 
     public Category() {

@@ -20,22 +20,7 @@
                         <input type="date" class="form-control" placeholder="Date" th:field="*{date}"/>
                     </div>
                     <div class="form-group">
-                        <label for="book">Book</label>
-                        <!--<ul id="book">-->
-                            <!--<li th:each="book : ${books}">-->
-                                <!--<label th:text="${book.title}"></label>-->
-                                <!--<input name="idBook" type="checkbox" th:value="${book.id}" />-->
-                            <!--</li>-->
-                        <!--</ul>-->
-                        <!--<tbody id="book">-->
-                            <!--<tr th:each="book, stat : ${bookForm.bookList}">-->
-                                <!--&lt;!&ndash;<label th:text="|book[${stat.index}]"></label>&ndash;&gt;-->
-                                <!--<td><input type="checkbox"-->
-                                           <!--th:name="|book[${stat.index}]|"-->
-                                           <!--th:value="|book[${stat.index}]|" />-->
-                                <!--</td>-->
-                            <!--</tr>-->
-                        <!--</tbody>-->
+                        <label for="book">Add Book</label>
                         <ul id="book">
                             <li th:each="book : ${bookForm.bookList}">
                                 <!--<div class="ui checkbox">-->

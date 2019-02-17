@@ -15,7 +15,7 @@ public class Shipping {
     private String address;
     private int postalCode;
 
-    @OneToMany(mappedBy = "shipping")
+    @OneToMany(mappedBy = "shipping", cascade=CascadeType.REMOVE)
     private Set<Order> order;
 
     public Shipping(){

@@ -19,17 +19,84 @@
                         <th scope="col">Id</th>
                         <th scope="col">Date</th>
                         <th scope="col">Shipping</th>
+                        <th scope="col">Books</th>
                         <th scope="col"></th>
                         <th scope="col"></th>
                     </tr>
                     </thead>
                     <tbody id="table">
                     <th:block th:each="order : ${orders}">
-
                         <tr>
                             <td th:text="${order.id}"></td>
                             <td th:text="${order.date}"></td>
-                            <td th:text="${order.shipping.firstName}"></td>
+                            <td>
+                                <div class="panel-group">
+                                    <div clas="panel panel-default">
+                                        <div class="panel-heading">
+                                            <p class="panel-title">
+                                                <a data-toggle="collapse" th:href="@{|#shipping${order.id}|}" th:text="${order.shipping.firstName}"></a>
+                                            </p>
+                                        </div>
+                                        <div th:id="@{|shipping${order.id}|}" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">Id</th>
+                                                            <th scope="col">First Name</th>
+                                                            <th scope="col">Last Name</th>
+                                                            <th scope="col">Address</th>
+                                                            <th scope="col">Postal Code</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td th:text="${order.shipping.id}"></td>
+                                                            <td th:text="${order.shipping.firstName}"></td>
+                                                            <td th:text="${order.shipping.lastName}"></td>
+                                                            <td th:text="${order.shipping.address}"></td>
+                                                            <td th:text="${order.shipping.postalCode}"></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="panel-group">
+                                    <div clas="panel panel-default">
+                                        <div class="panel-heading">
+                                            <p class="panel-title">
+                                                <a data-toggle="collapse" th:href="@{|#orderlines${order.id}|}" th:text="Orderlines"></a>
+                                            </p>
+                                        </div>
+                                        <div th:id="@{|orderlines${order.id}|}" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">Id</th>
+                                                            <th scope="col">Book</th>
+                                                            <th scope="col">Author</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <th:block th:each="orderline : ${orderlines}">
+                                                            <tr th:if="${orderline.getOrder().getId() == order.id}">
+                                                                <td th:text="${orderline.getId()}"></td>
+                                                                <td th:text="${orderline.getBook().getTitle()}"></td>
+                                                                <td th:text="${orderline.getBook().getAuthor().getFirstName() + ' ' + orderline.getBook().getAuthor().getLastName()}"></td>
+                                                            </tr>
+                                                        </th:block>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
                             <td>
                                 <a th:href="@{|/orders/order/${order.id}|}" class="btn btn-white btn-lg text-warning"><i class="fas fa-edit"></i></a>
                             </td>

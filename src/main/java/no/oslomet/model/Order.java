@@ -16,6 +16,10 @@ public class Order {
     @Transient
     private ArrayList<Book> bookList;
 
+    @Transient
+    @OneToMany (mappedBy = "`order`", cascade=CascadeType.REMOVE)
+    private Set<Orderline> orderline;
+
     @ManyToOne
     @JoinColumn(name="idShipping")
     private Shipping shipping;

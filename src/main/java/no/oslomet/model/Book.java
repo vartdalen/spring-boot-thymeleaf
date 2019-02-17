@@ -5,7 +5,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "book")
-public class Book implements java.io.Serializable {
+public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="idBook")
@@ -22,7 +22,7 @@ public class Book implements java.io.Serializable {
     @JoinColumn(name="idCategory")
     private Category category;
 
-    @OneToMany(mappedBy = "book")
+    @OneToMany(mappedBy = "book", cascade=CascadeType.REMOVE)
     private Set<Orderline> orderline;
 
     public Book() {

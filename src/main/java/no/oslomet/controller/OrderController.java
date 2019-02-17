@@ -30,7 +30,9 @@ public class OrderController {
     @Transactional
     public String orders(Model model) {
         List<Order> orderList = orderRepository.findAll();
+        List<Orderline> orderlineList = orderlineRepository.findAll();
         model.addAttribute("orders", orderList);
+        model.addAttribute("orderlines", orderlineList);
         return "orders";
     }
 
@@ -45,7 +47,7 @@ public class OrderController {
             book = bookRepository.findById(book.getId()).get();
             book.setQuantity(book.getQuantity()-1);
             bookRepository.save(book);
-            
+
             Orderline orderline = new Orderline();
             orderline.setOrder(order);
             orderline.setBook(book);
@@ -69,7 +71,6 @@ public class OrderController {
 
         List<Shipping> shippingList = shippingRepository.findAll();
         model.addAttribute("order", order);
-        model.addAttribute("books", bookList);
         model.addAttribute("bookForm", bookForm);
         model.addAttribute("shippings", shippingList);
         return "order";
@@ -93,7 +94,6 @@ public class OrderController {
         List<Orderline> orderlineList = orderlineRepository.findAll();
         List<Book> bookList = bookRepository.findAll();
         for(Orderline orderline : orderlineList) {
-            System.out.println("orderline id: " + orderline.getId());
             if(orderline.getOrder().getId() == order.getId()) {
                 for (Book book : bookList) {
                     if (book.getId() == orderline.getBook().getId()) {
@@ -114,6 +114,12 @@ public class OrderController {
     public String delete(@PathVariable("id") String id) {
         Order order = new Order();
         order = orderRepository.findById(Long.parseLong(id)).get();
+        List<Orderline> orderlineList = orderlineRepository.findAll();
+        for (Orderline orderline : orderlineList) {
+            if(orderline.getOrder().getId() == order.getId()) {
+                orderlineRepository.delete(orderline);
+            }
+        }
         orderRepository.delete(order);
         return "redirect:/orders";
     }

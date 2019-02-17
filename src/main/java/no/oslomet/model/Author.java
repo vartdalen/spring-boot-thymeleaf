@@ -9,7 +9,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "author")
-public class Author implements java.io.Serializable {
+public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="idAuthor")
@@ -19,7 +19,7 @@ public class Author implements java.io.Serializable {
     private String nationality;
     private String rating;
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author", cascade=CascadeType.REMOVE)
     private Set<Book> book;
 
     public Author() {
