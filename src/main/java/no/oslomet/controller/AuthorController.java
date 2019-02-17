@@ -13,8 +13,6 @@ import java.util.List;
 @Controller
 @RequestMapping("/authors")
 public class AuthorController {
-
-    // Dependency injection
     @Autowired
     private AuthorRepository authorRepository;
 

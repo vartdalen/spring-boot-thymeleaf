@@ -23,21 +23,24 @@
                         <input type="text" class="form-control" placeholder="Release Year" th:field="*{releaseYear}"/>
                     </div>
                     <div class="form-group">
-                        <select name="idCategory" title="Category">
+                        <label for="category">Category</label>
+                        <select name="idCategory" id="category">
                             <th:block th:each="category : ${categories}">
                                 <option th:value="${category.id}" th:label="${category.name}"/>
                             </th:block>
                         </select>
                     </div>
                     <div class="form-group">
-                        <select name="idAuthor" title="Author">
+                        <label for="author">Author</label>
+                        <select name="idAuthor" id="author">
                             <th:block th:each="author : ${authors}">
                                 <option th:value="${author.id}" th:label="${author.firstName}"/>
                             </th:block>
                         </select>
                     </div>
                     <div class="form-group">
-                        <input type="number" class="form-control" placeholder="Quantity" th:field="*{quantity}"/>
+                        <label for="quantity">Quantity</label>
+                        <input type="number" class="form-control" placeholder="Quantity" th:field="*{quantity}" id="quantity"/>
                     </div>
                     <button type="submit" class="btn btn-primary">Save</button>
                 </form>

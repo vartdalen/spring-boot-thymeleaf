@@ -1,6 +1,7 @@
 package no.oslomet.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Set;
 
 @Entity
@@ -12,22 +13,20 @@ public class Order {
     private long id;
     private String date;
 
-    @ManyToOne
-    @JoinColumn(name="idBook")
-    private Book book;
+    @Transient
+    private ArrayList<Book> bookList;
 
-//    @ManyToOne
-//    @JoinColumn(name="idShipping")
-//    private Shipping shipping;
+    @ManyToOne
+    @JoinColumn(name="idShipping")
+    private Shipping shipping;
 
     public Order() {
     }
 
-    public Order(long id) {
+    public Order(long id, String date, Shipping shipping) {
         this.id = id;
         this.date = date;
-        this.book = book;
-//        this.shipping = shipping;
+        this.shipping = shipping;
     }
 
     public long getId() { return id; }
@@ -36,9 +35,9 @@ public class Order {
     public String getDate() { return date; }
     public void setDate(String date) { this.date = date; }
 
-    public Book getBook() { return book; }
-    public void setBook(Book book) { this.book = book; }
+    public Shipping getShipping() { return shipping; }
+    public void setShipping(Shipping shipping) { this.shipping = shipping; }
 
-//    public Shipping getShipping() { return shipping; }
-//    public void setShipping(Shipping shipping) { this.shipping = shipping; }
+    public ArrayList<Book> getBookList() { return bookList; }
+    public void setBookList(ArrayList<Book> bookList) { this.bookList = bookList; }
 }

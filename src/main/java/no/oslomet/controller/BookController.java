@@ -17,8 +17,6 @@ import java.util.List;
 @Controller
 @RequestMapping("/books")
 public class BookController {
-
-    // Dependency injection
     @Autowired
     private BookRepository bookRepository;
     @Autowired

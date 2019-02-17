@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Shipping</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <section class="content-header" th:replace="headers/imports::imports"></section>
+    <section class="content-header" th:replace="headers/navbar::navbar"></section>
+
+    <div class="container">
+        <div class="row my-5">
+            <div class="col-sm-6 mx-auto">
+                <h4 class="text-primary text-center">Shipping</h4>
+                <form method="post" th:action="@{/shippings}" th:object="${shipping}">
+                    <div class="form-group" style="visibility: hidden">
+                        <input type="text" class="form-control" placeholder="Id" th:field="*{id}"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="First Name" th:field="*{firstName}"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Last Name" th:field="*{lastName}"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Address" th:field="*{address}"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" class="form-control" placeholder="Postal Code" th:field="*{postalCode}"/>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

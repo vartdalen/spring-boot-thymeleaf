@@ -21,8 +21,8 @@
                         <th scope="col">Last Name</th>
                         <th scope="col">Nationality</th>
                         <th scope="col">Rating</th>
-                        <th scope="col" style="visibility: hidden"></th>
-                        <th scope="col" style="visibility: hidden"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
                     </tr>
                     </thead>
                     <tbody id="table">
@@ -33,10 +33,10 @@
                             <td th:text="${author.lastName}"></td>
                             <td th:text="${author.nationality}"></td>
                             <td th:text="${author.rating}"></td>
-                            <td style="visibility: hidden">
+                            <td>
                                 <a th:href="@{|/authors/author/${author.id}|}" class="btn btn-white btn-lg text-warning"><i class="fas fa-edit"></i></a>
                             </td>
-                            <td style="visibility: hidden">
+                            <td>
                                 <a th:href="@{|/authors/delete/${author.id}|}" class="btn btn-white btn-lg text-danger post"> <i class="fas fa-trash-alt"></i></a>
                             </td>
                         </tr>

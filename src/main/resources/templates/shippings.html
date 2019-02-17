@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Orders</title>
+    <title>Shippings</title>
     <meta charset="UTF-8">
 </head>
 <body>
@@ -11,29 +11,33 @@
     <div class="container">
         <div class="row my-5">
             <div class="col-sm-8 mx-auto">
-                <h4 class="text-primary text-center">Order List</h4>
+                <h4 class="text-primary text-center">Shipping List</h4>
                 <input type="text" class="form-control" placeholder="Search" id="search" style="margin-top: 2em; margin-bottom: 2em;"/>
                 <table class="table">
                     <thead>
                     <tr>
                         <th scope="col">Id</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Shipping</th>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Postal Code</th>
                         <th scope="col"></th>
                         <th scope="col"></th>
                     </tr>
                     </thead>
                     <tbody id="table">
-                    <th:block th:each="order : ${orders}">
+                    <th:block th:each="shipping : ${shippings}">
                         <tr>
-                            <td th:text="${order.id}"></td>
-                            <td th:text="${order.date}"></td>
-                            <td th:text="${order.shipping.firstName}"></td>
+                            <td th:text="${shipping.id}"></td>
+                            <td th:text="${shipping.firstName}"></td>
+                            <td th:text="${shipping.lastName}"></td>
+                            <td th:text="${shipping.address}"></td>
+                            <td th:text="${shipping.postalCode}"></td>
                             <td>
-                                <a th:href="@{|/orders/order/${order.id}|}" class="btn btn-white btn-lg text-warning"><i class="fas fa-edit"></i></a>
+                                <a th:href="@{|/shippings/shipping/${shipping.id}|}" class="btn btn-white btn-lg text-warning"><i class="fas fa-edit"></i></a>
                             </td>
                             <td>
-                                <a th:href="@{|/orders/delete/${order.id}|}" class="btn btn-white btn-lg text-danger post"> <i class="fas fa-trash-alt"></i></a>
+                                <a th:href="@{|/shippings/delete/${shipping.id}|}" class="btn btn-white btn-lg text-danger post"> <i class="fas fa-trash-alt"></i></a>
                             </td>
                         </tr>
                     </th:block>

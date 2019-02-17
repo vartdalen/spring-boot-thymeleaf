@@ -5,16 +5,15 @@ import java.util.Set;
 
 @Entity
 @Table(name = "category")
-public class Category {
+public class Category implements java.io.Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="idCategory")
     private long id;
+    private String name;
 
     @OneToMany(mappedBy = "category")
     private Set<Book> book;
-
-    private String name;
 
     public Category() {
     }
@@ -24,5 +23,4 @@ public class Category {
 
     public String getName() { return this.name; }
     public void setName(String name) { this.name = name; }
-
 }

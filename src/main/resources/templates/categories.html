@@ -19,8 +19,8 @@
                     <tr>
                         <th scope="col">Id</th>
                         <th scope="col">Name</th>
-                        <th scope="col" style="visibility: hidden"></th>
-                        <th scope="col" style="visibility: hidden"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
                     </tr>
                     </thead>
                     <tbody id="table">
@@ -28,10 +28,10 @@
                         <tr>
                             <td th:text="${category.id}"></td>
                             <td th:text="${category.name}"></td>
-                            <td style="visibility: hidden">
+                            <td>
                                 <a th:href="@{|/categories/category/${category.id}|}" class="btn btn-white btn-lg text-warning" ><i class="fas fa-edit"></i></a>
                             </td>
-                            <td style="visibility: hidden">
+                            <td>
                                 <a th:href="@{|/categories/delete/${category.id}|}" class="btn btn-white btn-lg text-danger post"> <i class="fas fa-trash-alt"></i></a>
                             </td>
                         </tr>

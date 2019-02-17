@@ -1,7 +1,5 @@
 package no.oslomet.controller;
 
-import no.oslomet.model.Author;
-import no.oslomet.model.Book;
 import no.oslomet.model.Category;
 import no.oslomet.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +26,7 @@ public class CategoryController {
 
     @PostMapping("")
     @Transactional
-    public String books(@ModelAttribute("book") Category category) {
+    public String categories(@ModelAttribute("category") Category category) {
         categoryRepository.save(category);
         return "redirect:/categories";
     }
